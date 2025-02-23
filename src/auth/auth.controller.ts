@@ -2,12 +2,10 @@ import {
   Body,
   Controller,
   Get,
-  HttpCode,
-  HttpStatus,
   Post,
   Request,
   Response,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 
 import { AuthGuard } from './auth.guard';
@@ -17,10 +15,12 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private authService: AuthService) { }
 
-  @HttpCode(HttpStatus.OK)
   @Post('login')
   async signIn(@Body() signInDto: Record<string, any>, @Response() res: any) {
-    const token = await this.authService.signIn(signInDto.email, signInDto.password);
+    const token = await this.authService.signIn(
+      signInDto.email,
+      signInDto.password,
+    );
 
     res.cookie('jwt', token, {
       httpOnly: true,
