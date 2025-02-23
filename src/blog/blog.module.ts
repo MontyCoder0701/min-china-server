@@ -11,4 +11,4 @@ import { BlogService } from './blog.service';
   controllers: [BlogController],
   providers: [BlogService],
 })
-export class BlogModule { }
+export class BlogModule {}
