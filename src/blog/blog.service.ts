@@ -10,21 +10,29 @@ export class BlogService {
     private readonly blogRepository: Repository<Blog>,
   ) { }
 
-  findAll(): Promise<Blog[]> {
-    return this.blogRepository.find();
+  async findAll(page: number, limit: number) {
+    const [blogs, total] = await this.blogRepository.findAndCount({
+      take: limit,
+      skip: (page - 1) * limit,
+    });
+
+    return {
+      blogs,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+    };
   }
 
-  findOne(id: number): Promise<Blog | null> {
+  async findOne(id: number) {
     return this.blogRepository.findOne({ where: { id } });
   }
 
-  async create(title: string, content: string): Promise<Blog> {
+  async create(title: string, content: string) {
     const blog = this.blogRepository.create({ title, content });
-    return await this.blogRepository.save(blog);
+    return this.blogRepository.save(blog);
   }
 
-  async delete(id: number): Promise<boolean> {
-    const result = await this.blogRepository.delete(id);
-    return result.affected > 0;
+  async delete(id: number) {
+    return this.blogRepository.delete(id);
   }
 }

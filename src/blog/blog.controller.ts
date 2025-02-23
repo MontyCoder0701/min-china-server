@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Body, Query, UseGuards } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 
@@ -7,8 +7,11 @@ export class BlogController {
   constructor(private readonly blogService: BlogService) { }
 
   @Get()
-  getAll() {
-    return this.blogService.findAll();
+  getAll(
+    @Query('page') page = '1',
+    @Query('limit') limit = '3',
+  ) {
+    return this.blogService.findAll(Number(page), Number(limit));
   }
 
   @Get(':id')
@@ -21,7 +24,6 @@ export class BlogController {
   create(@Body() body: { title: string; content: string }) {
     return this.blogService.create(body.title, body.content);
   }
-
 
   @Delete(':id')
   @UseGuards(AuthGuard)
