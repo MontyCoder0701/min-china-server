@@ -9,9 +9,9 @@ export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
-  async signIn(email: string, pass: string): Promise<string> {
+  async login(email: string, pass: string): Promise<string> {
     const user = await this.userService.findOne(email);
     if (!user || !(await bcrypt.compare(pass, user.password))) {
       throw new UnauthorizedException();

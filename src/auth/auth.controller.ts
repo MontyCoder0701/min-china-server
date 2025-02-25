@@ -16,8 +16,8 @@ export class AuthController {
   constructor(private authService: AuthService) { }
 
   @Post('login')
-  async signIn(@Body() signInDto: Record<string, any>, @Response() res: any) {
-    const token = await this.authService.signIn(
+  async login(@Body() signInDto: Record<string, any>, @Response() res: any) {
+    const token = await this.authService.login(
       signInDto.email,
       signInDto.password,
     );
@@ -29,7 +29,7 @@ export class AuthController {
       maxAge: 20 * 60 * 1000,
     });
 
-    return res.json({ message: '로그인 성공' });
+    return res.json();
   }
 
   @UseGuards(AuthGuard)
@@ -41,6 +41,6 @@ export class AuthController {
   @Post('logout')
   logout(@Response() res: any) {
     res.clearCookie('jwt');
-    return res.json({ message: '로그아웃 성공' });
+    return res.json();
   }
 }
