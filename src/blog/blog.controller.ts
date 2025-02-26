@@ -15,7 +15,7 @@ import { BlogService } from './blog.service';
 
 @Controller('blog')
 export class BlogController {
-  constructor(private readonly blogService: BlogService) { }
+  constructor(private readonly blogService: BlogService) {}
 
   @Get()
   getAll(@Query('page') page = '1', @Query('limit') limit = '5') {

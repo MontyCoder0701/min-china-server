@@ -10,7 +10,7 @@ export class BlogService {
   constructor(
     @InjectRepository(Blog)
     private readonly blogRepository: Repository<Blog>,
-  ) { }
+  ) {}
 
   async findAll(page: number, limit: number) {
     const [blogs, total] = await this.blogRepository.findAndCount({
