@@ -16,11 +16,8 @@ export class AuthController {
   constructor(private authService: AuthService) { }
 
   @Post('login')
-  async login(@Body() signInDto: Record<string, any>, @Response() res: any) {
-    const token = await this.authService.login(
-      signInDto.email,
-      signInDto.password,
-    );
+  async login(@Body() dto: { email: string, password: string }, @Response() res: any) {
+    const token = await this.authService.login(dto.email, dto.password);
 
     res.cookie('jwt', token, {
       httpOnly: true,
