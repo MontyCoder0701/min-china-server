@@ -11,9 +11,9 @@ export class AuthService {
     private jwtService: JwtService,
   ) { }
 
-  async login(email: string, pass: string): Promise<string> {
+  async login(email: string, password: string): Promise<string> {
     const user = await this.userService.findOne(email);
-    if (!user || !(await bcrypt.compare(pass, user.password))) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException();
     }
 
