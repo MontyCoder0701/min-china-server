@@ -8,6 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
+import { LoginDto } from './auth.dto';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 
@@ -16,8 +17,8 @@ export class AuthController {
   constructor(private authService: AuthService) { }
 
   @Post('login')
-  async login(@Body() dto: { email: string, password: string }, @Response() res: any) {
-    const token = await this.authService.login(dto.email, dto.password);
+  async login(@Body() dto: LoginDto, @Response() res: any) {
+    const token = await this.authService.login(dto);
 
     res.cookie('jwt', token, {
       httpOnly: true,

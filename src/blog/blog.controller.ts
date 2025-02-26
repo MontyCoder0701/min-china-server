@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 
 import { AuthGuard } from 'src/auth/auth.guard';
+import { CreateBlogDto } from './blog.dto';
 import { BlogService } from './blog.service';
 
 @Controller('blog')
@@ -28,13 +29,13 @@ export class BlogController {
 
   @Post()
   @UseGuards(AuthGuard)
-  create(@Body() body: { title: string; content: string }) {
-    return this.blogService.create(body.title, body.content);
+  createOne(@Body() dto: CreateBlogDto) {
+    return this.blogService.createOne(dto);
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard)
-  delete(@Param('id') id: number) {
-    return this.blogService.delete(id);
+  deleteOne(@Param('id') id: number) {
+    return this.blogService.deleteOne(id);
   }
 }

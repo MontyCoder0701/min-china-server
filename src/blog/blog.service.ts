@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
+import { CreateBlogDto } from './blog.dto';
 import { Blog } from './blog.entity';
 
 @Injectable()
@@ -9,12 +10,13 @@ export class BlogService {
   constructor(
     @InjectRepository(Blog)
     private readonly blogRepository: Repository<Blog>,
-  ) {}
+  ) { }
 
   async findAll(page: number, limit: number) {
     const [blogs, total] = await this.blogRepository.findAndCount({
       take: limit,
       skip: (page - 1) * limit,
+      order: { createdAt: 'DESC' },
     });
 
     return {
@@ -28,12 +30,12 @@ export class BlogService {
     return this.blogRepository.findOne({ where: { id } });
   }
 
-  async create(title: string, content: string) {
-    const blog = this.blogRepository.create({ title, content });
+  async createOne(dto: CreateBlogDto) {
+    const blog = this.blogRepository.create(dto);
     return this.blogRepository.save(blog);
   }
 
-  async delete(id: number) {
+  async deleteOne(id: number) {
     return this.blogRepository.delete(id);
   }
 }
