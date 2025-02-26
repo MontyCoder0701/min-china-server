@@ -14,10 +14,10 @@ import { BlogService } from './blog.service';
 
 @Controller('blog')
 export class BlogController {
-  constructor(private readonly blogService: BlogService) {}
+  constructor(private readonly blogService: BlogService) { }
 
   @Get()
-  getAll(@Query('page') page = '1', @Query('limit') limit = '3') {
+  getAll(@Query('page') page = '1', @Query('limit') limit = '5') {
     return this.blogService.findAll(Number(page), Number(limit));
   }
 
