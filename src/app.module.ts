@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { BlogModule } from './blog/blog.module';
+import { UploadController } from './upload.controller';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -32,7 +33,10 @@ import { UserModule } from './user/user.module';
     UserModule,
     BlogModule,
   ],
-  controllers: [AppController],
+  controllers: [
+    AppController,
+    UploadController,
+  ],
   providers: [AppService],
 })
 export class AppModule {}
