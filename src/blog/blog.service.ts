@@ -27,7 +27,7 @@ export class BlogService {
   }
 
   async findOne(id: number): Promise<Blog> {
-    return this.blogRepository.findOne({ where: { id } });
+    return await this.blogRepository.findOne({ where: { id } });
   }
 
   async findAdjacent(id: number): Promise<{ prev: Blog | null; next: Blog | null }> {
