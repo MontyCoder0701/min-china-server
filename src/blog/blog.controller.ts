@@ -8,32 +8,32 @@ import {
   Post,
   Query,
   UseGuards,
-} from '@nestjs/common';
+} from "@nestjs/common";
 
-import { AuthGuard } from 'src/auth/auth.guard';
-import { CreateBlogDto, UpdateBlogDto } from './blog.dto';
-import { BlogService } from './blog.service';
+import { AuthGuard } from "src/auth/auth.guard";
+import { CreateBlogDto, UpdateBlogDto } from "./blog.dto";
+import { BlogService } from "./blog.service";
 
-@Controller('blog')
+@Controller("blog")
 export class BlogController {
-  constructor(private readonly blogService: BlogService) { }
+  constructor(private readonly blogService: BlogService) {}
 
   @Get()
   getAll(
-    @Query('page') page = '1',
-    @Query('limit') limit = '5',
-    @Query('q') query?: string,
+    @Query("page") page = "1",
+    @Query("limit") limit = "5",
+    @Query("q") query?: string,
   ) {
     return this.blogService.findAll(Number(page), Number(limit), query);
   }
 
-  @Get(':id')
-  getOne(@Param('id') id: number) {
+  @Get(":id")
+  getOne(@Param("id") id: number) {
     return this.blogService.findOne(id);
   }
 
-  @Get(':id/adj')
-  getOneAdjacent(@Param('id') id: number) {
+  @Get(":id/adj")
+  getOneAdjacent(@Param("id") id: number) {
     return this.blogService.findAdjacent(id);
   }
 
@@ -43,15 +43,15 @@ export class BlogController {
     return this.blogService.createOne(dto);
   }
 
-  @Patch(':id')
+  @Patch(":id")
   @UseGuards(AuthGuard)
-  updateOne(@Param('id') id: number, @Body() dto: UpdateBlogDto) {
+  updateOne(@Param("id") id: number, @Body() dto: UpdateBlogDto) {
     return this.blogService.updateOne(id, dto);
   }
 
-  @Delete(':id')
+  @Delete(":id")
   @UseGuards(AuthGuard)
-  deleteOne(@Param('id') id: number) {
+  deleteOne(@Param("id") id: number) {
     return this.blogService.deleteOne(id);
   }
 }

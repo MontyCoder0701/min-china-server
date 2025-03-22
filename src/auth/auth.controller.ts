@@ -6,24 +6,24 @@ import {
   Request,
   Response,
   UseGuards,
-} from '@nestjs/common';
+} from "@nestjs/common";
 
-import { LoginDto } from './auth.dto';
-import { AuthGuard } from './auth.guard';
-import { AuthService } from './auth.service';
+import { LoginDto } from "./auth.dto";
+import { AuthGuard } from "./auth.guard";
+import { AuthService } from "./auth.service";
 
-@Controller('auth')
+@Controller("auth")
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
-  @Post('login')
+  @Post("login")
   async login(@Body() dto: LoginDto, @Response() res: any) {
     const token = await this.authService.login(dto);
 
-    res.cookie('jwt', token, {
+    res.cookie("jwt", token, {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
+      sameSite: "strict",
       maxAge: 5 * 60 * 60 * 1000,
     });
 
@@ -31,14 +31,14 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard)
-  @Get('profile')
+  @Get("profile")
   getProfile(@Request() req: any) {
     return req.user;
   }
 
-  @Post('logout')
+  @Post("logout")
   logout(@Response() res: any) {
-    res.clearCookie('jwt');
+    res.clearCookie("jwt");
     return res.json();
   }
 }

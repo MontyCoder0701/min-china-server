@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
+import { Module } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { JwtModule } from "@nestjs/jwt";
 
-import { UserModule } from 'src/user/user.module';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+import { UserModule } from "src/user/user.module";
+import { AuthController } from "./auth.controller";
+import { AuthService } from "./auth.service";
 
 @Module({
   imports: [
@@ -13,8 +13,8 @@ import { AuthService } from './auth.service';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         global: true,
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '5h' },
+        secret: configService.get<string>("JWT_SECRET"),
+        signOptions: { expiresIn: "5h" },
       }),
     }),
   ],
@@ -22,4 +22,4 @@ import { AuthService } from './auth.service';
   controllers: [AuthController],
   exports: [AuthModule, JwtModule],
 })
-export class AuthModule { }
+export class AuthModule {}

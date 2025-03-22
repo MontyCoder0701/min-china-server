@@ -3,7 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
-} from 'typeorm';
+} from "typeorm";
 
 @Entity()
 export class Blog {
@@ -13,7 +13,7 @@ export class Blog {
   @Column({ length: 255 })
   title: string;
 
-  @Column('text')
+  @Column("text")
   content: string;
 
   @CreateDateColumn()

@@ -1,9 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, ILike, LessThan, MoreThan, Repository, UpdateResult } from 'typeorm';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import {
+  DeleteResult,
+  ILike,
+  LessThan,
+  MoreThan,
+  Repository,
+  UpdateResult,
+} from "typeorm";
 
-import { CreateBlogDto, UpdateBlogDto } from './blog.dto';
-import { Blog } from './blog.entity';
+import { CreateBlogDto, UpdateBlogDto } from "./blog.dto";
+import { Blog } from "./blog.entity";
 
 @Injectable()
 export class BlogService {
@@ -15,13 +22,12 @@ export class BlogService {
   async findAll(
     page: number,
     limit: number,
-    query?: string
+    query?: string,
   ): Promise<{
     blogs: Blog[];
     totalPages: number;
     currentPage: number;
   }> {
-
     const where = query?.trim()
       ? [
         { title: ILike(`%${query.trim()}%`) },
@@ -33,7 +39,7 @@ export class BlogService {
       where,
       take: limit,
       skip: (page - 1) * limit,
-      order: { createdAt: 'DESC' },
+      order: { createdAt: "DESC" },
     });
 
     return {
@@ -49,7 +55,7 @@ export class BlogService {
 
   async findAdjacent(id: number): Promise<{
     prev: Blog | null;
-    next: Blog | null
+    next: Blog | null;
   }> {
     const current = await this.blogRepository.findOne({ where: { id } });
     if (!current) {
@@ -58,12 +64,12 @@ export class BlogService {
 
     const prev = await this.blogRepository.findOne({
       where: { id: LessThan(id) },
-      order: { createdAt: 'DESC' },
+      order: { createdAt: "DESC" },
     });
 
     const next = await this.blogRepository.findOne({
       where: { id: MoreThan(id) },
-      order: { createdAt: 'ASC' },
+      order: { createdAt: "ASC" },
     });
 
     return { prev, next };
