@@ -14,7 +14,7 @@ import { AuthService } from './auth.service';
       useFactory: (configService: ConfigService) => ({
         global: true,
         secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '20m' },
+        signOptions: { expiresIn: '5h' },
       }),
     }),
   ],
@@ -22,4 +22,4 @@ import { AuthService } from './auth.service';
   controllers: [AuthController],
   exports: [AuthModule, JwtModule],
 })
-export class AuthModule {}
+export class AuthModule { }
