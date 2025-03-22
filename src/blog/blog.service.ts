@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, LessThan, MoreThan, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, ILike, LessThan, MoreThan, Repository, UpdateResult } from 'typeorm';
 
 import { CreateBlogDto, UpdateBlogDto } from './blog.dto';
 import { Blog } from './blog.entity';
@@ -12,8 +12,25 @@ export class BlogService {
     private readonly blogRepository: Repository<Blog>,
   ) { }
 
-  async findAll(page: number, limit: number): Promise<{ blogs: Blog[]; totalPages: number; currentPage: number; }> {
+  async findAll(
+    page: number,
+    limit: number,
+    query?: string
+  ): Promise<{
+    blogs: Blog[];
+    totalPages: number;
+    currentPage: number;
+  }> {
+
+    const where = query?.trim()
+      ? [
+        { title: ILike(`%${query.trim()}%`) },
+        { content: ILike(`%${query.trim()}%`) },
+      ]
+      : undefined;
+
     const [blogs, total] = await this.blogRepository.findAndCount({
+      where,
       take: limit,
       skip: (page - 1) * limit,
       order: { createdAt: 'DESC' },
@@ -30,7 +47,10 @@ export class BlogService {
     return await this.blogRepository.findOne({ where: { id } });
   }
 
-  async findAdjacent(id: number): Promise<{ prev: Blog | null; next: Blog | null }> {
+  async findAdjacent(id: number): Promise<{
+    prev: Blog | null;
+    next: Blog | null
+  }> {
     const current = await this.blogRepository.findOne({ where: { id } });
     if (!current) {
       return { prev: null, next: null };
