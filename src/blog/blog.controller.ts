@@ -15,7 +15,7 @@ import { BlogService } from './blog.service';
 
 @Controller('blog')
 export class BlogController {
-  constructor(private readonly blogService: BlogService) {}
+  constructor(private readonly blogService: BlogService) { }
 
   @Get()
   getAll(@Query('page') page = '1', @Query('limit') limit = '5') {
@@ -25,6 +25,11 @@ export class BlogController {
   @Get(':id')
   getOne(@Param('id') id: number) {
     return this.blogService.findOne(id);
+  }
+
+  @Get(':id/adj')
+  getOneAdjacent(@Param('id') id: number) {
+    return this.blogService.findAdjacent(id);
   }
 
   @Post()
