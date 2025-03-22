@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, LessThan, MoreThan, Repository } from 'typeorm';
+import { DeleteResult, LessThan, MoreThan, Repository, UpdateResult } from 'typeorm';
 
-import { CreateBlogDto } from './blog.dto';
+import { CreateBlogDto, UpdateBlogDto } from './blog.dto';
 import { Blog } from './blog.entity';
 
 @Injectable()
@@ -51,7 +51,11 @@ export class BlogService {
 
   async createOne(dto: CreateBlogDto): Promise<Blog> {
     const blog = this.blogRepository.create(dto);
-    return this.blogRepository.save(blog);
+    return await this.blogRepository.save(blog);
+  }
+
+  async updateOne(id: number, dto: UpdateBlogDto): Promise<UpdateResult> {
+    return await this.blogRepository.update(id, dto);
   }
 
   async deleteOne(id: number): Promise<DeleteResult> {
