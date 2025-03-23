@@ -16,6 +16,9 @@ export class Blog {
   @Column("text")
   content: string;
 
+  @Column({ default: false })
+  isDraft: boolean;
+
   @CreateDateColumn()
   createdAt: Date;
 }
