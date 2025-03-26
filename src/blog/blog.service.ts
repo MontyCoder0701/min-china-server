@@ -17,7 +17,7 @@ export class BlogService {
   constructor(
     @InjectRepository(Blog)
     private readonly blogRepository: Repository<Blog>,
-  ) { }
+  ) {}
 
   async findAll(
     page: number,
@@ -30,9 +30,9 @@ export class BlogService {
   }> {
     const where = query?.trim()
       ? [
-        { title: ILike(`%${query.trim()}%`) },
-        { content: ILike(`%${query.trim()}%`) },
-      ]
+          { title: ILike(`%${query.trim()}%`) },
+          { content: ILike(`%${query.trim()}%`) },
+        ]
       : undefined;
 
     const [blogs, total] = await this.blogRepository.findAndCount({

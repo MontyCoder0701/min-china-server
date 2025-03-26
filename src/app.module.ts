@@ -25,6 +25,7 @@ import { UserModule } from "./user/user.module";
         username: configService.get<string>("DATABASE_USER"),
         password: configService.get<string>("DATABASE_PASS"),
         database: configService.get<string>("DATABASE_NAME"),
+        subscribers: [`${__dirname}/**/*.subscriber{.ts,.js}`],
         autoLoadEntities: true,
         // synchronize: true,
       }),
@@ -36,4 +37,4 @@ import { UserModule } from "./user/user.module";
   controllers: [AppController, UploadController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
